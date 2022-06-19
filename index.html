@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/main.js" defer></script>
+    <title>Odin Library</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <h1>Project: Library</h1>
+            </div>
+            <div class="user-login">
+                <ul>
+                    <li>Login</li>
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <div class="addbook-button-container">
+                <button id="open-modal">Add Book</button>
+                </div>
+            <section id="library-container">
+                <div class="card" data-index-number="0">
+                    <div class="card-title">Dune</div>
+                    <div class="card-author">Frank Herbert</div>
+                    <div class="card-pages">600</div>
+                    <div class="card-category">Sci-Fi</div>
+                    <div class="card-read-status">Read</div>
+                    <button class="card-button" onclick="deleteCard(0)">Delete</button>
+                </div>
+
+                <div class="card" data-index-number="1">
+                   <div class="card-title">The Art of War</div>
+                   <div class="card-author">Sun Tzu</div>
+                   <div class="card-pages">900</div>
+                   <div class="card-category">Fiction</div>
+                   <div class="card-read-status">Unread</div>
+                   <button class="card-button" onclick="deleteCard(1)">Delete</button>
+               </div>
+
+               <div class="card" data-index-number="2">
+                    <div class="card-title">The Notebook</div>
+                    <div class="card-author">Nicholas Sparks</div>
+                    <div class="card-pages">1000</div>
+                    <div class="card-category">Romance</div>
+                    <div class="card-read-status">Unread</div>
+                    <button class="card-button" onclick="deleteCard(2)">Delete</button>
+                </div>
+
+
+                <!-- <div id="prepend"></div> -->
+            </section>
+        </main>
+
+        
+        <modal id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>Add Book</h1>
+
+                <form id="form-addbook">
+                    <fieldset id="basic-info">
+                        <legend>Basic Info</legend>
+                        <label for="title">Title</label>
+                        <input class="form-input" id="title" name="title" type="text" placeholder="title">
+
+                        <label for="author">Author</label>
+                        <input class="form-input" id="author" name="author" type="text" placeholder="author">
+
+                        <label for="pages">Pages</label>
+                        <input type="text" name="pages" id="pages" placeholder="1">
+                    </fieldset>
+
+                    <fieldset id="radio-buttons">
+                        <legend>Category</legend>
+                        
+                        <input id="cat-fiction" type="radio" name="category" value="fiction" checked>
+                        <label for="cat-fiction">Fiction</label>
+                        
+                        <input id="cat-romance" type="radio" name="category" value="romance">
+                        <label for="cat-romance">Romance</label>
+
+                        <input id="cat-scifi" type="radio" name="category" value="scifi">
+                        <label for="cat-scifi">Sci-Fi</label>
+                    </fieldset>
+
+                    <div id="read-status-container">
+                        <label for="read-status">Has this been read?</label>
+                        <input type="checkbox" name="read-status" id="read-status" value="read">
+                    </div>
+
+                    <button id="submit" type="submit">Submit</button>
+                </form>
+
+
+            </div>
+        </modal>
+
+        <form id="form-test" hidden>
+            <input id="title-test" name="title" type="text" placeholder="Title">
+            <input id="author-test" name="author" type="text" placeholder="Author">
+            <input id="pages-test" name="pages" type="text"  placeholder="Pages">
+            
+            <input id="read-status" name="read-status" type="checkbox" value="read">
+
+            <fieldset id="radio-buttons">
+                <legend>Category</legend>
+                <label for="cat-fiction">Fiction</label>
+                <input id="cat-fiction" type="radio" name="category" value="fiction" required>
+                
+                <label for="cat-romance">Romance</label>
+                <input id="cat-romance" type="radio" name="category" value="romance">
+                
+                <label for="cat-scifi">Sci-Fi</label>
+                <input id="cat-scifi" type="radio" name="category" value="scifi">
+            </fieldset>
+
+            <button id="button-test">Submit-Test</button>
+        </form>
+
+
+
+        <footer>
+            footer
+        </footer>
+
+
+    </div>
+
+
+</body>
+</html>
