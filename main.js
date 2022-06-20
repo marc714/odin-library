@@ -41,6 +41,8 @@ let myLibrary = [
     {title:"The Notebook", author:"Nicholas Sparks", pages:"1000", category:"romance", read:"unread"}
 ];
 
+let dataIndexNumber = 2;
+
 function Book(title, author, pages, category, readstatus) {   
     // the constructor
     this.title = title;
@@ -49,6 +51,32 @@ function Book(title, author, pages, category, readstatus) {
     this.category = category;
     this.read = readstatus;    
 };
+
+
+/*  https://javascript.plainenglish.io/proto-vs-prototype-in-js-140b9b9c8cd5 
+https://youtu.be/1UTqFAjYx1k?t=720   ColorCode: JavaScript Prototypal inheritance - Tutorial
+__proto__ vs prototype. 14:11  "prototype" is a property of a Constructor function. 
+Also, dune.__proto__  === Book.prototype  returns True; it's the same thing, but from different ends.
+Also: https://www.w3schools.com/js/js_object_prototypes.asp  You can NOT add a new property to an existing object constructor. You must add it to the constructor function. See example in the link. Or add it as shown below:
+*/
+
+/* https://levelup.gitconnected.com/javascripts-proto-vs-prototype-a21ec7f25bc1  The sole purpose of the PROTOTYPE property in a function, is to intialize the __proto__ in the new object the function it creates. The new object will have the correct blueprint (constructor) and proto. */
+// https://youtu.be/mQ4oCgcgHOA?t=930  "Book.prototype.readButton is a method for Book if we didn't define that inside the original constructor function"  "Prototype is a bucket of methods that can be inherited"
+// reread about Constructors aka Blueprints https://www.w3schools.com/js/js_object_constructors.asp
+    //  "The JavaScript prototype property allows you to add new properties to object constructors:" 
+
+//****  This is really good specially the 'under the hood' THIS part:  https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/  "...every function in JavaScript has a prototype property that references an object." aka  prototype: object.. so it's just a property called prototype, and it's where you put values/methods that can be inherited.  Newer 2020 article: https://www.freecodecamp.org/news/javascript-prototype-explained-with-examples/   -- also read further about "WTF dude you just recreated Classes, and see how they made the prior example much cleaner w/ Classes"
+
+Book.prototype.readButton = function(){
+    if(this.read == "read"){
+        this.read = "unread"
+    } else {
+        this.read = "read";
+    }
+    console.log("hello");
+};
+
+
 
 // #3. Write a function that loops through the array and display them as cards. 
 // why loop? and not the last array item? As soon as you Add Book, it should be displayed.
@@ -63,22 +91,34 @@ function makeLibraryCard(){
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
 
     const library = document.getElementById("library-container");
-    const dataIndexNumber = myLibrary.length - 1;
-    
+    // no longer using array to set index number. can cause duplicates if you push/pop.
+    // const dataIndexNumber = myLibrary.length - 1;
+    dataIndexNumber++;
+    const obj = myLibrary[myLibrary.length - 1]; // selecting the object, aka the index of latest item in the array.
+    //const temp = obj.readButton();
+
     // New Card
     const newCard = document.createElement('div');
     newCard.classList.add("card");
     newCard.dataset['indexNumber'] = dataIndexNumber;
 
     // Delete button
-    const button = document.createElement('button');
-    button.textContent = "Delete";
-    button.classList.add("card-button")
+    const delButton = document.createElement('button');
+    delButton.textContent = "Delete";
+    delButton.classList.add("card-button")
     // https://stackoverflow.com/questions/18960932/how-to-set-attribute-using-javascript-variable
     const setAttributeVariable = `deleteCard(${dataIndexNumber})`;
-    button.setAttribute("onclick", setAttributeVariable)
+    delButton.setAttribute("onclick", setAttributeVariable)
     //button.onclick = deleteCard(dataIndexNumber);  // this just duplicates the above line.
     
+    // Read status button
+    const readButton = document.createElement('button');
+    readButton.textContent = "Read Status";
+    readButton.classList.add("read-status-button");
+    //const readButtonVariable = myLibrary[3].readButton();
+    readButton.setAttribute("onclick", `${obj}.readButton()`)
+
+
     //adds a new card to the end
     library.appendChild(newCard);
 
@@ -86,7 +126,7 @@ function makeLibraryCard(){
     const lastLibraryElement = library.lastElementChild;
     
     //const newDiv = document.createElement("div"); // i can't reuse this cause newDiv is assigned to this in memory?
-    const obj = myLibrary[myLibrary.length - 1];
+    
 
     
     for (let property in obj){
@@ -117,7 +157,9 @@ function makeLibraryCard(){
         };
         lastLibraryElement.appendChild(newDiv); //console.log(`${property}: ${obj[property]}`);
     };
-    newCard.appendChild(button);
+
+    newCard.appendChild(readButton);
+    newCard.appendChild(delButton);
     //newCard.className = "card";
     // library.appendChild(newDiv)
     // let lastChild = library.lastElementChild;
@@ -125,9 +167,9 @@ function makeLibraryCard(){
     // lastChild.appendChild(newDiv);
 };
 
-function deleteCard(currentCard){
+function deleteCard(setAttributeVariable){
     // https://reactgo.com/select-element-data-attribute-js/
-    const element = document.querySelector(`[data-index-number="${currentCard}"]`);
+    const element = document.querySelector(`[data-index-number="${setAttributeVariable}"]`);
     element.remove();
     console.log("delete me")
  
@@ -172,9 +214,15 @@ function addBookToLibrary(e) {
 
 
 
+// onclick button needs to be declared so it's written into the html. it's not dynamic.
+// aka onclick="variable.readStatus()"
+//   since i'm calling a method, i need the original objects variable.
+// an array doesn't hold the variables of the objects, just the objects themselves.
+// since we are NOT deleting array items when we use deleteCard, we can define declare what array location is when we make the book. 
+/*
 
-
-
+onclick needs to find the object 
+onclick itself can have a data field
 
 
 
