@@ -22,9 +22,19 @@ header {
     padding: 20px;
     display: flex;
     flex-direction: row;
-    background-color: blue;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
     justify-content: space-between;
     align-items: center;
+}
+
+h1 {
+    color: rgb(255, 255, 255)
+}
+
+main {
+    background-image: url('https://source.unsplash.com/sfL_QOnmy00');
+    background-size: cover;
 }
 
 #library-container {
@@ -49,6 +59,7 @@ header {
     padding: 10px;
     border-radius: 5px;
     border-width: 1px;
+    cursor: pointer;
 }
 
 .modal {
@@ -115,10 +126,15 @@ header {
     /* just playing w/ grid instead of flexbox */
 }
 
+#read-status-container input {
+    cursor: pointer;
+}
+
 button#submit {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 

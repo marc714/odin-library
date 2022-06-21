@@ -36,9 +36,9 @@ window.onclick = function(e) {
 }
 
 let myLibrary = [
-    {title:"Dune", author:"Frank Herbert", pages:"600", category:"scifi", read:"read"},
-    {title:"The Art of War", author:"Sun Tzu", pages:"900", category:"fiction", read:"unread"},
-    {title:"The Notebook", author:"Nicholas Sparks", pages:"1000", category:"romance", read:"unread"}
+    // {title:"Dune", author:"Frank Herbert", pages:"600", category:"scifi", read:"read"},
+    // {title:"The Art of War", author:"Sun Tzu", pages:"900", category:"fiction", read:"unread"},
+    // {title:"The Notebook", author:"Nicholas Sparks", pages:"1000", category:"romance", read:"unread"}
 ];
 
 let dataIndexNumber = 2;
@@ -67,15 +67,32 @@ Also: https://www.w3schools.com/js/js_object_prototypes.asp  You can NOT add a n
 
 //****  This is really good specially the 'under the hood' THIS part:  https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/  "...every function in JavaScript has a prototype property that references an object." aka  prototype: object.. so it's just a property called prototype, and it's where you put values/methods that can be inherited.  Newer 2020 article: https://www.freecodecamp.org/news/javascript-prototype-explained-with-examples/   -- also read further about "WTF dude you just recreated Classes, and see how they made the prior example much cleaner w/ Classes"
 
-Book.prototype.readButton = function(){
+Book.prototype.readButton = function(arrayIndex){
+    const readStatusText = document.querySelector(`.card-read-status[data-index-number="${arrayIndex}"]`);
+    //console.log(readStatusText);
+
     if(this.read == "read"){
         this.read = "unread"
+        readStatusText.textContent = "Unread"
     } else {
         this.read = "read";
+        readStatusText.textContent = "Read"
     }
+
+    // if(myLibrary[arrayIndex].read == "read"){
+    //     myLibrary[arrayIndex].read = "unread"
+    // } else {
+    //     myLibrary[arrayIndex].read = "read";
+    // }
+
     console.log("hello");
 };
 
+function readStatusComplex1(e){
+    //const bookIndex = e.target.getAttribute('data-index-number');
+    console.log("hello readStatusComplex(e) function");
+    
+}
 
 
 // #3. Write a function that loops through the array and display them as cards. 
@@ -93,21 +110,24 @@ function makeLibraryCard(){
     const library = document.getElementById("library-container");
     // no longer using array to set index number. can cause duplicates if you push/pop.
     // const dataIndexNumber = myLibrary.length - 1;
-    dataIndexNumber++;
+    // dataIndexNumber++; // no need since we will use Array Index number and not deleting any array items.
     const obj = myLibrary[myLibrary.length - 1]; // selecting the object, aka the index of latest item in the array.
     //const temp = obj.readButton();
+    const arrayIndex = myLibrary.length - 1;
 
     // New Card
     const newCard = document.createElement('div');
     newCard.classList.add("card");
-    newCard.dataset['indexNumber'] = dataIndexNumber;
+    //newCard.dataset['indexNumber'] = dataIndexNumber;
+    newCard.dataset['indexNumber'] = arrayIndex;
 
     // Delete button
     const delButton = document.createElement('button');
     delButton.textContent = "Delete";
     delButton.classList.add("card-button")
     // https://stackoverflow.com/questions/18960932/how-to-set-attribute-using-javascript-variable
-    const setAttributeVariable = `deleteCard(${dataIndexNumber})`;
+    // const setAttributeVariable = `deleteCard(${dataIndexNumber})`;
+    const setAttributeVariable = `deleteCard(${arrayIndex})`;
     delButton.setAttribute("onclick", setAttributeVariable)
     //button.onclick = deleteCard(dataIndexNumber);  // this just duplicates the above line.
     
@@ -115,8 +135,15 @@ function makeLibraryCard(){
     const readButton = document.createElement('button');
     readButton.textContent = "Read Status";
     readButton.classList.add("read-status-button");
-    //const readButtonVariable = myLibrary[3].readButton();
-    readButton.setAttribute("onclick", `${obj}.readButton()`)
+    readButton.dataset.indexNumber = arrayIndex;  // you can use [] or the . 
+    const readButtonVariable = 'myLibrary[3].readButton()'; // holy fuck, this works too, but needs "" to turn into string, and the onclick needs to remove "".
+    //readButton.setAttribute("onclick", "aFunction()") // holy fuck. you need "" on the function.
+    
+    // BELOW SYNTAX WORKS  <-------------------------
+    readButton.setAttribute("onclick", `myLibrary[${arrayIndex}].readButton(${arrayIndex})`);
+    //readButton.setAttribute("onclick", readButtonVariable);
+
+    //readButton.setAttribute("onclick", 'readStatusComplex()');  // a dynamicly made setAttribute function needs () and "".
 
 
     //adds a new card to the end
@@ -150,6 +177,7 @@ function makeLibraryCard(){
                 break;
             case 'read':
                 newDiv.classList.add("card-read-status");
+                newDiv.dataset.indexNumber = arrayIndex;
                 newDiv.textContent = `${obj[property]}`;
                 break;
             default:
@@ -167,6 +195,8 @@ function makeLibraryCard(){
     // lastChild.appendChild(newDiv);
 };
 
+
+// this will delete the html, but not the object in the array in order to preserve correct index/dataset numbers
 function deleteCard(setAttributeVariable){
     // https://reactgo.com/select-element-data-attribute-js/
     const element = document.querySelector(`[data-index-number="${setAttributeVariable}"]`);
@@ -209,8 +239,44 @@ function addBookToLibrary(e) {
     //console.log(myLibrary)
     
     makeLibraryCard();
+    modal.style.display = "none";
 };
 
+
+
+// Footer section testing
+const footer = document.getElementById('footerbtn');
+//footer.addEventListener('click', footerbtn);
+function footerbtn(e){
+    const temp = e.target.getAttribute('data-name');
+    console.log("Button's data attribute is: " + temp);
+}
+footer.onclick = footerbtn;
+
+
+function readStatusComplex(e){
+    //const bookIndex = e.target.getAttribute('data-index-number');
+    console.log("hello readStatusComplex(e) function");
+    
+}
+
+// make starting library
+window.onload = () => {
+    const book1 = new Book("Dune", "Frank Herbert", "600", "scifi", "read");
+    myLibrary.push(book1);
+    makeLibraryCard();
+
+    const book2 = new Book("The Art of War", "Sun Tzu", "900", "fiction", "unread");
+    myLibrary.push(book2);
+    makeLibraryCard();
+
+    const book3 = new Book("The Notebook", "Nicholas Sparks", "1000", "romance", "unread");
+    myLibrary.push(book3);
+    makeLibraryCard();
+}
+
+// https://bobbyhadz.com/blog/javascript-get-data-attribute-from-event-object
+// https://thewebdev.info/2021/03/20/how-to-get-the-id-of-the-clicked-element-in-the-javascript-click-handler/
 
 
 
@@ -223,12 +289,9 @@ function addBookToLibrary(e) {
 
 onclick needs to find the object 
 onclick itself can have a data field
+*/
 
-
-
-
-
-
+// https://stackoverflow.com/questions/15097315/change-onclick-attribute-with-javascript
 
 
 

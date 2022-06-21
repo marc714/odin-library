@@ -26,13 +26,14 @@
                 <button id="open-modal">Add Book</button>
                 </div>
             <section id="library-container">
-                <div class="card" data-index-number="0">
+                <!-- These hard coded books wont work w/ the read status button. I'm guessing scoped functions arn't loaded into memory. -->
+                <!-- <div class="card" data-index-number="0">
                     <div class="card-title">Dune</div>
                     <div class="card-author">Frank Herbert</div>
                     <div class="card-pages">600</div>
                     <div class="card-category">Sci-Fi</div>
-                    <div class="card-read-status">Read</div>
-                    <button class="read-status-button" onclick="readStatus()">Read Status</button>
+                    <div class="card-read-status" data-index-number="0">Read</div>
+                    <button class="read-status-button" data-index-number="0" onclick="myLibrary[0].readButton(0)">Read Status</button>
                     <button class="card-button" onclick="deleteCard(0)">Delete</button>
                 </div>
 
@@ -41,8 +42,8 @@
                    <div class="card-author">Sun Tzu</div>
                    <div class="card-pages">900</div>
                    <div class="card-category">Fiction</div>
-                   <div class="card-read-status">Unread</div>
-                   <button class="read-status-button" onclick="readStatus()">Read Status</button>
+                   <div class="card-read-status" data-index-number="1">Unread</div>
+                   <button class="read-status-button" data-index-number="1" onclick="myLibrary[1].readButton(1)">Read Status</button>
                    <button class="card-button" onclick="deleteCard(1)">Delete</button>
                </div>
 
@@ -51,9 +52,9 @@
                     <div class="card-author">Nicholas Sparks</div>
                     <div class="card-pages">1000</div>
                     <div class="card-category">Romance</div>
-                    <div class="card-read-status">Unread</div>
-                    <button class="read-status-button" onclick="readStatus()">Read Status</button>
-                    <button class="card-button" onclick="deleteCard(2)">Delete</button>
+                    <div class="card-read-status" data-index-number="2">Unread</div>
+                    <button class="read-status-button" data-index-number="2" onclick="myLibrary[2].readButton(2)">Read Status</button>
+                    <button class="card-button" onclick="deleteCard(2)">Delete</button> -->
                 </div>
 
 
@@ -105,7 +106,7 @@
             </div>
         </modal>
 
-        <form id="form-test" hidden>
+        <!-- <form id="form-test" hidden>
             <input id="title-test" name="title" type="text" placeholder="Title">
             <input id="author-test" name="author" type="text" placeholder="Author">
             <input id="pages-test" name="pages" type="text"  placeholder="Pages">
@@ -125,11 +126,13 @@
             </fieldset>
 
             <button id="button-test">Submit-Test</button>
-        </form>
+        </form> -->
 
 
 
         <footer>
+            <button id="footerbtn" data-name="test data button" hidden>Test Button</button>
+            <!-- commenting the button removes my window onload????? -->
             footer
         </footer>
 
