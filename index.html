@@ -72,8 +72,8 @@
                     <fieldset id="basic-info">
                         <legend>Basic Info</legend>
                         <label for="title">Title</label>
-                        <input class="form-input" id="title" name="title" type="text" placeholder="title">
-
+                        <input class="form-input" id="title" name="title" type="text" required>
+                        <!-- required doesn't work because on 'submit' i'm not actually using the built in form system? but i'm using javascript to scrape data instead. -->
                         <label for="author">Author</label>
                         <input class="form-input" id="author" name="author" type="text" placeholder="author">
 
